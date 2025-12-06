@@ -15,6 +15,9 @@ dependencies:
   # Http package
   dio: ^5.9.0
 
+  # Dependency injection
+  get_it: ^9.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

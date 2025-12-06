@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nortus/src/data/di/injector.dart';
 
 void main() {
+  setupDependencies();
   runApp(const MyApp());
 }
 
