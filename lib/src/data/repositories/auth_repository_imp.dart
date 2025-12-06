@@ -1,3 +1,4 @@
+import 'package:nortus/src/data/datasources/auth_local_datasource.dart';
 import 'package:nortus/src/data/datasources/auth_remote_datasource.dart';
 import 'package:nortus/src/domain/exceptions/app_exception.dart';
 import 'package:nortus/src/domain/exceptions/signin_exception.dart';
@@ -6,7 +7,12 @@ import 'package:nortus/src/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImp implements AuthRepository {
   final AuthRemoteDatasource authRemoteDatasource;
-  AuthRepositoryImp({required this.authRemoteDatasource});
+  final AuthLocalDatasource authLocalDatasource;
+
+  AuthRepositoryImp({
+    required this.authRemoteDatasource,
+    required this.authLocalDatasource,
+  });
 
   @override
   Future<bool> signUp({required String login, required String password}) async {
@@ -23,8 +29,16 @@ class AuthRepositoryImp implements AuthRepository {
   }
   
   @override
-  Future<bool> signIn({required String login, required String password}) async {
+  Future<bool> signIn({
+    required String login,
+    required String password,
+    required bool keepLogged,
+  }) async {
     try {
+      if (keepLogged) {
+        await authLocalDatasource.saveKeepLogged(true);
+      }
+
       return await authRemoteDatasource.signIn(
         login: login,
         password: password,
@@ -34,5 +48,15 @@ class AuthRepositoryImp implements AuthRepository {
     } catch (e) {
       throw SigninException();
     }
+  }
+  
+  @override
+  Future<bool> getKeepLogged() async {
+    return await authLocalDatasource.getKeepLogged();
+  }
+  
+  @override
+  Future<void> logout() async {
+    await authLocalDatasource.clearKeepLogged();
   }
 }

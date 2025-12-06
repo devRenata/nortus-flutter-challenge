@@ -1,11 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:nortus/src/data/datasources/auth_local_datasource.dart';
 import 'package:nortus/src/data/datasources/auth_remote_datasource.dart';
 import 'package:nortus/src/data/datasources/news_remote_datasource.dart';
 import 'package:nortus/src/data/datasources/user_remote_datasource.dart';
 import 'package:nortus/src/data/http/dio_client.dart';
 import 'package:nortus/src/data/repositories/auth_repository_imp.dart';
 import 'package:nortus/src/domain/repositories/auth_repository.dart';
+import 'package:nortus/src/domain/usecases/auth/get_keep_logged_usecase.dart';
+import 'package:nortus/src/presentation/notifiers/keep_logged_notifier.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -28,10 +31,28 @@ void setupDependencies() async {
     () => UserRemoteDatasource(dio: serviceLocator()),
   );
 
+  // Local datasources
+  serviceLocator.registerLazySingleton<AuthLocalDatasource>(
+    () => AuthLocalDatasource(),
+  );
+
   // Repositories
   serviceLocator.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImp(
       authRemoteDatasource: serviceLocator<AuthRemoteDatasource>(),
+      authLocalDatasource: serviceLocator<AuthLocalDatasource>(),
+    ),
+  );
+
+  // Usecases
+  serviceLocator.registerLazySingleton<GetKeepLoggedUsecase>(
+    () => GetKeepLoggedUsecase(repository: serviceLocator<AuthRepository>()),
+  );
+
+  // Providers
+  serviceLocator.registerFactory(
+    () => KeepLoggedNotifier(
+      getKeepLoggedUsecase: serviceLocator<GetKeepLoggedUsecase>(),
     ),
   );
 }

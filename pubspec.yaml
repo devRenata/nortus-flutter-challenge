@@ -21,6 +21,12 @@ dependencies:
   # Navigation
   go_router: ^17.0.0
 
+  # Persistence
+  shared_preferences: ^2.5.3
+
+  # State management
+  provider: ^6.1.5+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
