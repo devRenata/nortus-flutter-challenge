@@ -4,6 +4,8 @@ import 'package:nortus/src/data/datasources/auth_remote_datasource.dart';
 import 'package:nortus/src/data/datasources/news_remote_datasource.dart';
 import 'package:nortus/src/data/datasources/user_remote_datasource.dart';
 import 'package:nortus/src/data/http/dio_client.dart';
+import 'package:nortus/src/data/repositories/auth_repository_imp.dart';
+import 'package:nortus/src/domain/repositories/auth_repository.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -24,5 +26,12 @@ void setupDependencies() async {
 
   serviceLocator.registerLazySingleton<UserRemoteDatasource>(
     () => UserRemoteDatasource(dio: serviceLocator()),
+  );
+
+  // Repositories
+  serviceLocator.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImp(
+      authRemoteDatasource: serviceLocator<AuthRemoteDatasource>(),
+    ),
   );
 }
