@@ -11,11 +11,11 @@ class AuthState {
 
   AuthState copyWith({
     AuthStatus? status,
-    String? errorMessage,
+    String? message,
   }) {
     return AuthState(
       status: status ?? this.status,
-      message: message ?? this.message,
+      message: message,
     );
   }
 }

@@ -35,12 +35,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on AppException catch (e) {
       emit(state.copyWith(
         status: AuthStatus.failure,
-        errorMessage: e.message,
+        message: e.message,
       ));
     } catch (e) {
       emit(state.copyWith(
         status: AuthStatus.failure,
-        errorMessage: 'Ocorreu um erro ao realizar o login, tente novamente.',
+        message: 'Ocorreu um erro ao realizar o login, tente novamente.',
       ));
     }
   }
