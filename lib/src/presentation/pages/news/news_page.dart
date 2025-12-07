@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nortus/src/presentation/pages/widgets/custom_app_bar_widget.dart';
 
 class NewsPage extends StatelessWidget {
   const NewsPage({super.key});
@@ -6,8 +7,13 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('news page'),
+      appBar: CustomAppBarWidget(),
+      body: SafeArea(
+        child: Column(
+          children: [
+
+          ],
+        ),
       ),
     );
   }
