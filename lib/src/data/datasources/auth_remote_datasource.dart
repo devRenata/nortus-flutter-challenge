@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:nortus/src/data/http/dio_error_handler.dart';
 import 'package:nortus/src/data/http/endpoints.dart';
 import 'package:nortus/src/domain/exceptions/invalid_login_exception.dart';
-import 'package:nortus/src/domain/exceptions/signin_exception.dart';
+import 'package:nortus/src/domain/exceptions/sign_in_exception.dart';
 import 'package:nortus/src/domain/exceptions/user_already_exist_exception.dart';
 
 class AuthRemoteDatasource {
@@ -60,7 +60,7 @@ class AuthRemoteDatasource {
       }
       throw DioErrorHandler.handle(e);
     } catch (e) {
-      throw SigninException();
+      throw SignInException();
     }
   }
 }
