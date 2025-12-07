@@ -1,10 +1,10 @@
 import 'package:nortus/src/domain/exceptions/app_exception.dart';
-import 'package:nortus/src/domain/exceptions/login_exception.dart';
+import 'package:nortus/src/domain/exceptions/sign_in_exception.dart';
 import 'package:nortus/src/domain/repositories/auth_repository.dart';
 
-class LoginUsecase {
+class SignInUsecase {
   final AuthRepository repository;
-  LoginUsecase({required this.repository});
+  SignInUsecase({required this.repository});
 
   Future<bool> call({
     required String login,
@@ -20,7 +20,7 @@ class LoginUsecase {
     } on AppException {
       rethrow;
     } catch (e) {
-      throw LoginException();
+      throw SignInException();
     }
   }
 }

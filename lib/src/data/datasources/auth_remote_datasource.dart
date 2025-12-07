@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:nortus/src/data/http/dio_error_handler.dart';
 import 'package:nortus/src/data/http/endpoints.dart';
 import 'package:nortus/src/domain/exceptions/invalid_login_exception.dart';
