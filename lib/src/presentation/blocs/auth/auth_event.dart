@@ -12,3 +12,13 @@ class SubmitLoginEvent extends AuthEvent {
   });
 }
 
+class CreateAccountEvent extends AuthEvent {
+  final String login;
+  final String password;
+ 
+  CreateAccountEvent({
+    required this.login,
+    required this.password,
+  });
+}
+

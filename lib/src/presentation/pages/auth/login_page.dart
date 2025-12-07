@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.status == AuthStatus.success) {
+        if (state.status == AuthStatus.signInSuccessful) {
           context.go(AppRoutes.news);
         }
       },
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
             return BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 final isLoading = state.status == AuthStatus.loading;
-                final isError = state.status == AuthStatus.failure;
+                final isAlert = state.message != null;
 
                 return SafeArea(
                   child: Stack(
@@ -58,10 +58,12 @@ class _LoginPageState extends State<LoginPage> {
                       if (!isLoading)
                         _buildLoginPanel(size),
 
-                      if (isError)
+                      if (isAlert)
                         AlertWidget(
-                          message: state.message ?? 'Ocorreu um erro, tente novamente.',
-                          type: ContentType.error,
+                          message: state.message!,
+                          type: state.status == AuthStatus.failure
+                              ? ContentType.error
+                              : ContentType.success,
                         ),
                     ],
                   ),
@@ -77,10 +79,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildLoginPanel(Size size) {
     double loginOptionsHeight = size.height * 0.074;
     final horizontalPadding = size.width * 0.05;
-
-    double formHeight = isSignIn
-        ? size.height * 0.48
-        : size.height * 0.56;
+    double formHeight = size.height * 0.48;
 
     return Stack(
       clipBehavior: Clip.none,
@@ -103,12 +102,15 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 isSignIn
                     ? BuildSignInForm(horizontalPadding: horizontalPadding)
                     : BuildSignUpForm(horizontalPadding: horizontalPadding),
-                BuildForgotPassword(horizontalPadding: horizontalPadding),
+
+                isSignIn
+                    ? BuildForgotPassword(horizontalPadding: horizontalPadding)
+                    : SizedBox(height: 20),
               ],
             ),
           ),

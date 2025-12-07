@@ -35,7 +35,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
       ),
       child: Container(
         width: double.infinity,
-        height: size.height * 0.33,
+        height: size.height * 0.335,
         padding: EdgeInsets.symmetric(
           horizontal: 20,
           vertical: 20,
@@ -57,6 +57,7 @@ class _BuildSignInFormState extends State<BuildSignInForm> {
                   label: 'Digite seu E-mail',
                   hintText: 'exemplo@gmail.com',
                   validator: (value) => EmailValidator.signInValidate(email: value),
+                  keyboardType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 16),
                 BuildLoginTextField(

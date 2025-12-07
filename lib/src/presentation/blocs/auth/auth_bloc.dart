@@ -1,16 +1,20 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nortus/src/domain/exceptions/app_exception.dart';
-import 'package:nortus/src/domain/usecases/auth/login_usecase.dart';
+import 'package:nortus/src/domain/usecases/auth/sign_in_usecase.dart';
+import 'package:nortus/src/domain/usecases/auth/sign_up_usecase.dart';
 import 'package:nortus/src/presentation/blocs/auth/auth_event.dart';
 import 'package:nortus/src/presentation/blocs/auth/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final LoginUsecase loginUsecase;
+  final SignInUsecase signInUsecase;
+  final SignUpUsecase signUpUsecase;
 
   AuthBloc({
-    required this.loginUsecase,
+    required this.signInUsecase,
+    required this.signUpUsecase,
   }) : super(AuthState()) {
     on<SubmitLoginEvent>(_onSubmitLogin);
+    on<CreateAccountEvent>(_onCreateAccount);
   }
 
   Future<void> _onSubmitLogin(
@@ -20,14 +24,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(status: AuthStatus.loading));
 
     try {
-      final loginSuccessful = await loginUsecase(
+      final signInSuccessful = await signInUsecase(
         login: event.login,
         password: event.password,
         keepLogged: event.keepLogged,
       );
 
-      if (loginSuccessful) {
-        emit(state.copyWith(status: AuthStatus.success));
+      if (signInSuccessful) {
+        emit(state.copyWith(
+          status: AuthStatus.signInSuccessful,
+          message: 'Login realizado com sucesso!',
+        ));
       } else {
         emit(state.copyWith(status: AuthStatus.failure));
       }
@@ -41,6 +48,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(state.copyWith(
         status: AuthStatus.failure,
         message: 'Ocorreu um erro ao realizar o login, tente novamente.',
+      ));
+    }
+  }
+
+  Future<void> _onCreateAccount(
+    CreateAccountEvent event,
+    Emitter<AuthState> emit,
+  ) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+
+    try {
+      final signUpSuccessful = await signUpUsecase(
+        login: event.login,
+        password: event.password,
+      );
+
+      if (signUpSuccessful) {
+        emit(state.copyWith(
+          status: AuthStatus.signUpSuccessful,
+          message: 'Conta criada com sucesso!',
+        ));
+      } else {
+        emit(state.copyWith(status: AuthStatus.failure));
+      }
+
+    } on AppException catch (e) {
+      emit(state.copyWith(
+        status: AuthStatus.failure,
+        message: e.message,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStatus.failure,
+        message: 'Ocorreu um erro ao realizar o cadastro, tente novamente.',
       ));
     }
   }

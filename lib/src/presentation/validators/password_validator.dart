@@ -19,7 +19,7 @@ class PasswordValidator {
       return EmptyPasswordException().message;
     }
 
-    if (!RegExp(r'^[a-zA-Z]+$').hasMatch(password)) {
+    if (RegExp(r'^[a-zA-Z]+$').hasMatch(password)) {
       return NoLetterInPasswordException().message;
     }
 
