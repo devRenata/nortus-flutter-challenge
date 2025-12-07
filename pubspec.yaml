@@ -26,6 +26,7 @@ dependencies:
 
   # State management
   provider: ^6.1.5+1
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:
@@ -42,5 +43,8 @@ flutter:
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 400
         - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 600
         - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 700
