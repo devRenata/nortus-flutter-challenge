@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:nortus/src/data/http/dio_error_handler.dart';
 import 'package:nortus/src/data/http/endpoints.dart';
 import 'package:nortus/src/domain/exceptions/invalid_login_exception.dart';
@@ -12,7 +13,7 @@ class AuthRemoteDatasource {
   final List<Map<String, String>> _users = [];
   
   Future<bool> signUp({required String login, required String password}) async {
-    Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 3));
 
     final isUserAlreadyExist = _users.any((user) => user['login'] == login);
     if (isUserAlreadyExist) {
@@ -31,7 +32,7 @@ class AuthRemoteDatasource {
 
   Future<bool> signIn({required String login, required String password}) async {
     try {
-      Future.delayed(Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: 3));
 
       final isUserAlreadyExist = _users.any((user) => user['login'] == login);
       if (isUserAlreadyExist) {

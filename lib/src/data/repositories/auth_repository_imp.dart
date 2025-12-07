@@ -35,14 +35,16 @@ class AuthRepositoryImp implements AuthRepository {
     required bool keepLogged,
   }) async {
     try {
-      if (keepLogged) {
-        await authLocalDatasource.saveKeepLogged(true);
-      }
-
-      return await authRemoteDatasource.signIn(
+      final isSusseccful = await authRemoteDatasource.signIn(
         login: login,
         password: password,
       );
+
+      if (isSusseccful && keepLogged) {
+        await authLocalDatasource.saveKeepLogged(true);
+      }
+
+      return isSusseccful;
     } on AppException {
       rethrow;
     } catch (e) {

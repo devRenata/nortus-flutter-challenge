@@ -8,6 +8,7 @@ class DioClient {
       BaseOptions(
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
+        responseType: ResponseType.plain,
       ),
     );
 

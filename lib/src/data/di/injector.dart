@@ -8,6 +8,8 @@ import 'package:nortus/src/data/http/dio_client.dart';
 import 'package:nortus/src/data/repositories/auth_repository_imp.dart';
 import 'package:nortus/src/domain/repositories/auth_repository.dart';
 import 'package:nortus/src/domain/usecases/auth/get_keep_logged_usecase.dart';
+import 'package:nortus/src/domain/usecases/auth/login_usecase.dart';
+import 'package:nortus/src/presentation/blocs/auth/auth_bloc.dart';
 import 'package:nortus/src/presentation/notifiers/keep_logged_notifier.dart';
 
 final serviceLocator = GetIt.instance;
@@ -49,10 +51,20 @@ void setupDependencies() async {
     () => GetKeepLoggedUsecase(repository: serviceLocator<AuthRepository>()),
   );
 
-  // Providers
+  serviceLocator.registerLazySingleton<LoginUsecase>(
+    () => LoginUsecase(repository: serviceLocator<AuthRepository>()),
+  );
+
+  // Providers and Blocs
   serviceLocator.registerFactory(
     () => KeepLoggedNotifier(
       getKeepLoggedUsecase: serviceLocator<GetKeepLoggedUsecase>(),
+    ),
+  );
+
+  serviceLocator.registerFactory<AuthBloc>(
+    () => AuthBloc(
+      loginUsecase: serviceLocator<LoginUsecase>(),
     ),
   );
 }
