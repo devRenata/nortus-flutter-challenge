@@ -29,7 +29,7 @@ class News {
       image: Image.fromJson(json['image']),
 
       categories: (json['categories'] as List)
-          .map((e) => Category.fromJson(e))
+          .map((e) => Category(name: e as String))
           .toList(),
 
       authors: (json['authors'] as List)
