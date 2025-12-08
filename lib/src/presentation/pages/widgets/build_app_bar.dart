@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nortus/src/presentation/themes/app_assets.dart';
 import 'package:nortus/src/presentation/themes/app_colors.dart';
 
-class CustomAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const CustomAppBarWidget({super.key});
+class BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const BuildAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 20);

@@ -14,6 +14,7 @@ import 'package:nortus/src/domain/usecases/auth/sign_in_usecase.dart';
 import 'package:nortus/src/domain/usecases/auth/sign_up_usecase.dart';
 import 'package:nortus/src/domain/usecases/news/get_categories_usecase.dart';
 import 'package:nortus/src/presentation/blocs/auth/auth_bloc.dart';
+import 'package:nortus/src/presentation/blocs/news/news_bloc.dart';
 import 'package:nortus/src/presentation/notifiers/keep_logged_notifier.dart';
 
 final serviceLocator = GetIt.instance;
@@ -84,6 +85,12 @@ void setupDependencies() async {
     () => AuthBloc(
       signInUsecase: serviceLocator<SignInUsecase>(),
       signUpUsecase: serviceLocator<SignUpUsecase>(),
+    ),
+  );
+
+  serviceLocator.registerFactory<NewsBloc>(
+    () => NewsBloc(
+      getCategoriesUsecase: serviceLocator<GetCategoriesUsecase>(),
     ),
   );
 }
