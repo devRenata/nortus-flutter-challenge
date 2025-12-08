@@ -1,3 +1,5 @@
 abstract class NewsEvent {}
 
-class LoadNewsDataEvent extends NewsEvent {}
+class LoadCategoriesEvent extends NewsEvent {}
+
+class GetNewsEvent extends NewsEvent {}
