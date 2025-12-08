@@ -3,13 +3,13 @@ import 'package:nortus/src/presentation/themes/app_colors.dart';
 
 enum ContentType { error, success }
 
-class AlertWidget extends StatefulWidget {
+class BuildAlertWidget extends StatefulWidget {
   final String message;
   final ContentType type;
   final Duration duration;
   final VoidCallback? onDismissed;
 
-  const AlertWidget({
+  const BuildAlertWidget({
     super.key,
     required this.message,
     required this.type,
@@ -18,10 +18,10 @@ class AlertWidget extends StatefulWidget {
   });
 
   @override
-  State<AlertWidget> createState() => _AlertWidgetState();
+  State<BuildAlertWidget> createState() => _BuildAlertWidgetState();
 }
 
-class _AlertWidgetState extends State<AlertWidget> with SingleTickerProviderStateMixin {
+class _BuildAlertWidgetState extends State<BuildAlertWidget> with SingleTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<Offset> offsetAnimation;
 

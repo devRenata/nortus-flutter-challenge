@@ -6,11 +6,17 @@ import 'package:nortus/src/data/datasources/news_remote_datasource.dart';
 import 'package:nortus/src/data/datasources/user_remote_datasource.dart';
 import 'package:nortus/src/data/http/dio_client.dart';
 import 'package:nortus/src/data/repositories/auth_repository_imp.dart';
+import 'package:nortus/src/data/repositories/news_repository_imp.dart';
 import 'package:nortus/src/domain/repositories/auth_repository.dart';
+import 'package:nortus/src/domain/repositories/news_repository.dart';
 import 'package:nortus/src/domain/usecases/auth/get_keep_logged_usecase.dart';
 import 'package:nortus/src/domain/usecases/auth/sign_in_usecase.dart';
 import 'package:nortus/src/domain/usecases/auth/sign_up_usecase.dart';
+import 'package:nortus/src/domain/usecases/news/get_categories_usecase.dart';
+import 'package:nortus/src/domain/usecases/news/get_news_details_usecase.dart';
+import 'package:nortus/src/domain/usecases/news/get_news_usecase.dart';
 import 'package:nortus/src/presentation/blocs/auth/auth_bloc.dart';
+import 'package:nortus/src/presentation/blocs/news/news_bloc.dart';
 import 'package:nortus/src/presentation/notifiers/keep_logged_notifier.dart';
 
 final serviceLocator = GetIt.instance;
@@ -47,6 +53,12 @@ void setupDependencies() async {
     ),
   );
 
+  serviceLocator.registerLazySingleton<NewsRepository>(
+    () => NewsRepositoryImp(
+      newsRemoteDatasource: serviceLocator<NewsRemoteDatasource>(),
+    ),
+  );
+
   // Usecases
   serviceLocator.registerLazySingleton<GetKeepLoggedUsecase>(
     () => GetKeepLoggedUsecase(repository: serviceLocator<AuthRepository>()),
@@ -60,6 +72,18 @@ void setupDependencies() async {
     () => SignUpUsecase(repository: serviceLocator<AuthRepository>()),
   );
 
+  serviceLocator.registerLazySingleton<GetCategoriesUsecase>(
+    () => GetCategoriesUsecase(repository: serviceLocator<NewsRepository>()),
+  );
+
+  serviceLocator.registerLazySingleton<GetNewsUsecase>(
+    () => GetNewsUsecase(repository: serviceLocator<NewsRepository>()),
+  );
+
+  serviceLocator.registerLazySingleton<GetNewsDetailsUsecase>(
+    () => GetNewsDetailsUsecase(repository: serviceLocator<NewsRepository>()),
+  );
+
   // Providers and Blocs
   serviceLocator.registerFactory(
     () => KeepLoggedNotifier(
@@ -71,6 +95,14 @@ void setupDependencies() async {
     () => AuthBloc(
       signInUsecase: serviceLocator<SignInUsecase>(),
       signUpUsecase: serviceLocator<SignUpUsecase>(),
+    ),
+  );
+
+  serviceLocator.registerFactory<NewsBloc>(
+    () => NewsBloc(
+      getNewsDetailsUsecase: serviceLocator<GetNewsDetailsUsecase>(),
+      getCategoriesUsecase: serviceLocator<GetCategoriesUsecase>(),
+      getNewsUsecase: serviceLocator<GetNewsUsecase>(),
     ),
   );
 }

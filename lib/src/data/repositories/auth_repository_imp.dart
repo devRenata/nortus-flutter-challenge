@@ -1,8 +1,8 @@
 import 'package:nortus/src/data/datasources/auth_local_datasource.dart';
 import 'package:nortus/src/data/datasources/auth_remote_datasource.dart';
 import 'package:nortus/src/domain/exceptions/app_exception.dart';
-import 'package:nortus/src/domain/exceptions/signin_exception.dart';
-import 'package:nortus/src/domain/exceptions/signup_exception.dart';
+import 'package:nortus/src/domain/exceptions/sign_in_exception.dart';
+import 'package:nortus/src/domain/exceptions/sign_up_exception.dart';
 import 'package:nortus/src/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImp implements AuthRepository {
@@ -24,7 +24,7 @@ class AuthRepositoryImp implements AuthRepository {
     } on AppException {
       rethrow;
     } catch (e) {
-      throw SignupException();
+      throw SignUpException();
     }
   }
   
@@ -48,7 +48,7 @@ class AuthRepositoryImp implements AuthRepository {
     } on AppException {
       rethrow;
     } catch (e) {
-      throw SigninException();
+      throw SignInException();
     }
   }
   
