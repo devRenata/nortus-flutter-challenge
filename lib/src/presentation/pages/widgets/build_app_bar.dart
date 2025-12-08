@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:nortus/src/presentation/routes/app_routes.dart';
 import 'package:nortus/src/presentation/themes/app_assets.dart';
 import 'package:nortus/src/presentation/themes/app_colors.dart';
 
@@ -26,8 +28,14 @@ class BuildAppBar extends StatelessWidget implements PreferredSizeWidget {
 
           const SizedBox(width: 24),
 
-          _buildAppBarItem('Notícias', () {}),
-          _buildAppBarItem('Meu perfil', () {}),
+          _buildAppBarItem(
+            'Notícias',
+            () => context.go(AppRoutes.news),
+          ),
+          _buildAppBarItem(
+            'Meu perfil',
+            () => context.go(AppRoutes.user),
+          ),
         ],
       ),
     );
