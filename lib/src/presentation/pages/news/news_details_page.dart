@@ -6,6 +6,7 @@ import 'package:nortus/src/presentation/blocs/news/news_event.dart';
 import 'package:nortus/src/presentation/blocs/news/news_state.dart';
 import 'package:nortus/src/presentation/pages/news/widgets/build_related_news_card.dart';
 import 'package:nortus/src/presentation/pages/widgets/build_app_bar.dart';
+import 'package:nortus/src/presentation/pages/widgets/build_app_footer.dart';
 import 'package:nortus/src/presentation/routes/app_routes.dart';
 import 'package:nortus/src/presentation/themes/app_colors.dart';
 
@@ -46,21 +47,15 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
 
           if (state.status == NewsStatus.success) {
             return SingleChildScrollView(
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildReturnButton(context),
-                      _buildCategoryAndFavorite(size, state),
-                      _buildNewsContent(size, state),
-                      _buildRelatedNews(size, state),
-                    ],
-                  ),
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildReturnButton(context),
+                  _buildCategoryAndFavorite(size, state),
+                  _buildNewsContent(size, state),
+                  _buildRelatedNews(size, state),
+                  BuildAppFooter(),
+                ],
               ),
             );
           }
