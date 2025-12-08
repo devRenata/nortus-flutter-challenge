@@ -5,6 +5,7 @@ import 'package:nortus/src/presentation/blocs/news/news_bloc.dart';
 import 'package:nortus/src/presentation/blocs/news/news_event.dart';
 import 'package:nortus/src/presentation/blocs/news/news_state.dart';
 import 'package:nortus/src/presentation/pages/news/widgets/build_related_news_card.dart';
+import 'package:nortus/src/presentation/pages/widgets/build_alert_widget.dart';
 import 'package:nortus/src/presentation/pages/widgets/build_app_bar.dart';
 import 'package:nortus/src/presentation/pages/widgets/build_app_footer.dart';
 import 'package:nortus/src/presentation/routes/app_routes.dart';
@@ -36,6 +37,8 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
       appBar: BuildAppBar(),
       body: BlocBuilder<NewsBloc, NewsState>(
         builder: (context, state) {
+          final isAlert = state.message != null;
+          
           if (state.status == NewsStatus.loading ||
               state.newsDetails == null) {
             return Center(
@@ -46,17 +49,29 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
           }
 
           if (state.status == NewsStatus.success) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildReturnButton(context),
-                  _buildCategoryAndFavorite(size, state),
-                  _buildNewsContent(size, state),
-                  _buildRelatedNews(size, state),
-                  BuildAppFooter(),
-                ],
-              ),
+            return Stack(
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildReturnButton(context),
+                      _buildCategoryAndFavorite(size, state),
+                      _buildNewsContent(size, state),
+                      _buildRelatedNews(size, state),
+                      BuildAppFooter(),
+                    ],
+                  ),
+                ),
+
+                if (isAlert)
+                  BuildAlertWidget(
+                    message: state.message!,
+                    type: state.status == NewsStatus.failure
+                        ? ContentType.error
+                        : ContentType.success,
+                  ),
+              ],
             );
           }
 

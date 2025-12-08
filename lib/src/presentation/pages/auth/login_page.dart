@@ -7,7 +7,7 @@ import 'package:nortus/src/presentation/pages/auth/widgets/build_forgot_password
 import 'package:nortus/src/presentation/pages/auth/widgets/build_sign_in_form.dart';
 import 'package:nortus/src/presentation/pages/auth/widgets/build_login_option_button.dart';
 import 'package:nortus/src/presentation/pages/auth/widgets/build_sign_up_form.dart';
-import 'package:nortus/src/presentation/pages/widgets/alert_widget.dart';
+import 'package:nortus/src/presentation/pages/widgets/build_alert_widget.dart';
 import 'package:nortus/src/presentation/routes/app_routes.dart';
 import 'package:nortus/src/presentation/themes/app_assets.dart';
 import 'package:nortus/src/presentation/themes/app_colors.dart';
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                         _buildLoginPanel(size),
 
                       if (isAlert)
-                        AlertWidget(
+                        BuildAlertWidget(
                           message: state.message!,
                           type: state.status == AuthStatus.failure
                               ? ContentType.error

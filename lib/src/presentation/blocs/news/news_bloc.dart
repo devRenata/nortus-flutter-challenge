@@ -38,7 +38,10 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     if (state.favoriteNews.contains(event.id)) return;
 
     final updatedList = List<int>.from(state.favoriteNews)..add(event.id);
-    emit(state.copyWith(favoriteNews: updatedList));
+    emit(state.copyWith(
+      favoriteNews: updatedList,
+      message: 'Você favoritou esta Notícia. Você pode encontrá-la no perfil.'
+    ));
   }
 
   Future<void> _onGetNewsDetails(
