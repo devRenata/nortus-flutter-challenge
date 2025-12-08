@@ -14,6 +14,7 @@ class NewsState {
   final NewsStatus status;
   final List<Category> categories;
   final NewsDetails? newsDetails;
+  final List<News> searchedNews;
   final List<News> favoriteNews;
   final List<News> news;
   final String? message;
@@ -24,6 +25,7 @@ class NewsState {
     required this.status,
     required this.categories,
     required this.newsDetails,
+    required this.searchedNews,
     required this.favoriteNews,
     required this.news,
     required this.message,
@@ -34,6 +36,7 @@ class NewsState {
   factory NewsState.initial() {
     return NewsState(
       status: NewsStatus.initial,
+      searchedNews: [],
       favoriteNews: [],
       categories: [],
       news: [],
@@ -47,6 +50,7 @@ class NewsState {
   NewsState copyWith({
     NewsStatus? status,
     List<Category>? categories,
+    List<News>? searchedNews,
     List<News>? favoriteNews,
     List<News>? news,
     String? message,
@@ -63,6 +67,7 @@ class NewsState {
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       newsDetails: newsDetails ?? this.newsDetails,
       favoriteNews: favoriteNews ?? this.favoriteNews,
+      searchedNews: searchedNews ?? this.searchedNews,
     );
   }
 }

@@ -22,6 +22,21 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<GetNewsDetailsEvent>(_onGetNewsDetails);
     on<AddFavoriteNewsEvent>(_onAddFavoriteNews);
     on<RemoveFavoriteNewsEvent>(_onRemoveFavoriteNews);
+    on<SearchNewsEvent>(_onSearchNews);
+  }
+
+  Future<void> _onSearchNews(
+    SearchNewsEvent event,
+    Emitter<NewsState> emit,
+  ) async {
+    final query = event.query.toLowerCase();
+    if (query.isEmpty) return;
+
+    final searched = state.news.where((news) {
+      return news.title.toLowerCase().contains(query);
+    }).toList();
+
+    emit(state.copyWith(searchedNews: searched));
   }
 
   Future<void> _onRemoveFavoriteNews(

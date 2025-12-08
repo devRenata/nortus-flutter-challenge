@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nortus/src/domain/entities/news.dart';
 import 'package:nortus/src/presentation/blocs/news/news_bloc.dart';
 import 'package:nortus/src/presentation/blocs/news/news_event.dart';
 import 'package:nortus/src/presentation/blocs/news/news_state.dart';
 import 'package:nortus/src/presentation/pages/news/widgets/build_news_card.dart';
+import 'package:nortus/src/presentation/pages/news/widgets/build_search_news.dart';
 import 'package:nortus/src/presentation/pages/widgets/build_alert_widget.dart';
 import 'package:nortus/src/presentation/pages/widgets/build_app_bar.dart';
 import 'package:nortus/src/presentation/pages/widgets/build_app_drawer.dart';
@@ -17,7 +19,9 @@ class NewsPage extends StatefulWidget {
 }
 
 class _NewsPageState extends State<NewsPage> {
+  final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
+  bool isSearching = false;
 
   @override
   void initState() {
@@ -28,6 +32,7 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   void _onScroll() {
+    if (isSearching) return;
     if (_scrollController.position.pixels >=
       _scrollController.position.maxScrollExtent - 200) {
     
@@ -74,30 +79,55 @@ class _NewsPageState extends State<NewsPage> {
                     children: [
                       _buildSearchBar(size),
                       
+                      // Listview of News
                       Expanded(
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 20,
-                          ),
-                          itemCount: state.news.length + (state.status == NewsStatus.loadingNews ? 1 : 0),
-                          itemBuilder: (context, index) {
-                            if (index < state.news.length) {
-                              return BuildNewsCard(
-                                news: state.news[index],
-                              );
-                            } else {
-                              return Center(
-                                child: Transform.scale(
-                                  scale: 0.7,
+                        child: Builder(
+                          builder: (context) {
+                            final newsList = _listToShow(state);
+
+                            if (newsList.isEmpty) {
+                              if (isSearching) {
+                                return _buildEmptySearchResult();
+                                
+                              } else {
+                                // List of news loading
+                                return Center(
                                   child: CircularProgressIndicator(
                                     color: AppColors.primary,
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             }
-                          },
+
+                            // List of news
+                            return ListView.builder(
+                              controller: _scrollController,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 20,
+                              ),
+                              itemCount: _listToShow(state).length +
+                                  ((state.status == NewsStatus.loadingNews && !isSearching) ? 1 : 0),
+                              itemBuilder: (context, index) {
+                                final newsList = _listToShow(state);
+                            
+                                if (index < newsList.length) {
+                                  return BuildNewsCard(
+                                    news: newsList[index],
+                                  );
+                                } else {
+                                  return Center(
+                                    child: Transform.scale(
+                                      scale: 0.7,
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.primary,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
+                          }
                         ),
                       ),
                     ],
@@ -121,6 +151,10 @@ class _NewsPageState extends State<NewsPage> {
     );
   }
 
+  List<News> _listToShow(NewsState state) {
+    return isSearching ? state.searchedNews : state.news;
+  }
+
   Widget _buildSearchBar(Size size) {
     return Container(
       height: size.height * 0.09,
@@ -138,21 +172,118 @@ class _NewsPageState extends State<NewsPage> {
               );
             },
           ),
-          SizedBox(width: 10),
-          Text(
-            'Nortus',
-            style: TextStyle(
-              color: AppColors.textBlack,
-              fontWeight: FontWeight.w600,
-              fontSize: 24,
+
+          if (isSearching)
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: BuildSearchNews(
+                        controller: _searchController,
+                        onChanged: (value) {
+                          context.read<NewsBloc>().add(SearchNewsEvent(query: value));
+                        },
+                      ),
+                    )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() => isSearching = false);
+                      },
+                      child: Container(
+                        width: size.width * 0.1,
+                        height: size.width * 0.1,
+                        decoration: BoxDecoration(
+                          color: AppColors.backgroundGray,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            width: 1,
+                            color: AppColors.borderGray,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.close_rounded,
+                        ),
+                      ),
+                    ),
+                  ),
+                  
+                ],
+              ),
+            )
+          else
+            Expanded(
+              child: Row(
+                children: [
+                  SizedBox(width: 10),
+                  Text(
+                    'Nortus',
+                    style: TextStyle(
+                      color: AppColors.textBlack,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 24,
+                    ),
+                  ),
+                  Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isSearching = true;
+                      });
+                    },
+                    icon: Icon(Icons.search_rounded, size: 28),
+                  ),
+                  SizedBox(width: 10),
+                ],
+              ),
+            )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptySearchResult() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 30,
+        vertical: 50,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Resultado da busca por ',
+                  style: TextStyle(
+                    color: AppColors.textBlack,
+                    fontSize: 16,
+                  ),
+                ),
+                TextSpan(
+                  text: _searchController.text,
+                  style: TextStyle(
+                    color: AppColors.secondary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
           ),
-          Spacer(),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.search_rounded, size: 28),
-          ),
-          SizedBox(width: 10),
+          SizedBox(height: 10),
+          Text(
+            'Verifique se existe algum erro de digitação no termo.',
+            style: TextStyle(
+              color: AppColors.textGray,
+            ),
+          )
         ],
       ),
     );

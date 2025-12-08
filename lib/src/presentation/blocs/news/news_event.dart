@@ -20,3 +20,8 @@ class RemoveFavoriteNewsEvent extends NewsEvent {
   final News news;
   RemoveFavoriteNewsEvent({required this.news});
 }
+
+class SearchNewsEvent extends NewsEvent {
+  final String query;
+  SearchNewsEvent({required this.query});
+}
