@@ -14,7 +14,7 @@ class NewsState {
   final NewsStatus status;
   final List<Category> categories;
   final NewsDetails? newsDetails;
-  final List<int> favoriteNews;
+  final List<News> favoriteNews;
   final List<News> news;
   final String? message;
   final int page;
@@ -47,7 +47,7 @@ class NewsState {
   NewsState copyWith({
     NewsStatus? status,
     List<Category>? categories,
-    List<int>? favoriteNews,
+    List<News>? favoriteNews,
     List<News>? news,
     String? message,
     int? page,

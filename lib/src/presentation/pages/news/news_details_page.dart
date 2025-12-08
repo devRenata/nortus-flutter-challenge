@@ -38,7 +38,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
       body: BlocBuilder<NewsBloc, NewsState>(
         builder: (context, state) {
           final isAlert = state.message != null;
-          
+
           if (state.status == NewsStatus.loading ||
               state.newsDetails == null) {
             return Center(
@@ -278,7 +278,7 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
   }
 
   Widget _buildCategoryAndFavorite(Size size, NewsState state) {
-    final bool isFavorite = state.favoriteNews.any((n) => n == state.newsDetails!.id);
+    final bool isFavorite = state.favoriteNews.any((n) => n.id == state.newsDetails!.id);
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -308,37 +308,24 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
               ),
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              if (isFavorite) {
-                context.read<NewsBloc>().add(
-                  RemoveFavoriteNewsEvent(id: widget.id),
-                );
-              } else {
-                  context.read<NewsBloc>().add(
-                    AddFavoriteNewsEvent(id: widget.id),
-                  );
-              }
-            },
-            child: Container(
-              padding: EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: AppColors.backgroundGray,
-                borderRadius: BorderRadius.circular(50),
-                border: Border.all(
-                  width: 1,
-                  color: AppColors.borderGray,
-                ),
+          Container(
+            padding: EdgeInsets.all(4),
+            decoration: BoxDecoration(
+              color: AppColors.backgroundGray,
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(
+                width: 1,
+                color: AppColors.borderGray,
               ),
-              child: Icon(
-                isFavorite
-                    ? Icons.star_rounded
-                    : Icons.star_outline_rounded,
-                color: isFavorite
-                    ? AppColors.yellow
-                    : AppColors.textBlack,
-                size: 28,
-              ),
+            ),
+            child: Icon(
+              isFavorite
+                  ? Icons.star_rounded
+                  : Icons.star_outline_rounded,
+              color: isFavorite
+                  ? AppColors.yellow
+                  : AppColors.textBlack,
+              size: 28,
             ),
           ),
         ],

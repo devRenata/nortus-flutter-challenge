@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nortus/src/domain/entities/news.dart';
 import 'package:nortus/src/domain/exceptions/app_exception.dart';
 import 'package:nortus/src/domain/usecases/news/get_categories_usecase.dart';
 import 'package:nortus/src/domain/usecases/news/get_news_details_usecase.dart';
@@ -27,20 +28,27 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     RemoveFavoriteNewsEvent event,
     Emitter<NewsState> emit,
   ) async {
-    final updatedList = state.favoriteNews.where((favId) => favId != event.id).toList();
-    emit(state.copyWith(favoriteNews: updatedList));
+    final updatedList = state.favoriteNews
+        .where((news) => news.id != event.news.id)
+        .toList();
+
+    emit(state.copyWith(
+      favoriteNews: updatedList,
+    ));
   }
 
   Future<void> _onAddFavoriteNews(
     AddFavoriteNewsEvent event,
     Emitter<NewsState> emit,
   ) async {
-    if (state.favoriteNews.contains(event.id)) return;
+    final alreadyFavorite = state.favoriteNews.any((news) => news.id == event.news.id);
+    if (alreadyFavorite) return;
 
-    final updatedList = List<int>.from(state.favoriteNews)..add(event.id);
+    final updatedList = List<News>.from(state.favoriteNews)..add(event.news);
+
     emit(state.copyWith(
       favoriteNews: updatedList,
-      message: 'Você favoritou esta Notícia. Você pode encontrá-la no perfil.'
+      message: 'Você favoritou esta Notícia. Você pode encontrá-la no perfil.',
     ));
   }
 

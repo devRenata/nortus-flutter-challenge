@@ -1,3 +1,5 @@
+import 'package:nortus/src/domain/entities/news.dart';
+
 abstract class NewsEvent {}
 
 class LoadCategoriesEvent extends NewsEvent {}
@@ -10,11 +12,11 @@ class GetNewsDetailsEvent extends NewsEvent {
 }
 
 class AddFavoriteNewsEvent extends NewsEvent {
-  final int id;
-  AddFavoriteNewsEvent({required this.id});
+  final News news;
+  AddFavoriteNewsEvent({required this.news});
 }
 
 class RemoveFavoriteNewsEvent extends NewsEvent {
-  final int id;
-  RemoveFavoriteNewsEvent({required this.id});
+  final News news;
+  RemoveFavoriteNewsEvent({required this.news});
 }

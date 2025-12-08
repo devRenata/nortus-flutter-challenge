@@ -25,7 +25,7 @@ class _BuildNewsCardState extends State<BuildNewsCard> {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<NewsBloc, NewsState>(
       builder: (context, state) {
-        final bool isFavorite = state.favoriteNews.any((n) => n == widget.news.id);
+        final bool isFavorite = state.favoriteNews.any((n) => n.id == widget.news.id);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,11 +65,11 @@ class _BuildNewsCardState extends State<BuildNewsCard> {
                       onTap: () {
                         if (isFavorite) {
                           context.read<NewsBloc>().add(
-                            RemoveFavoriteNewsEvent(id: widget.news.id),
+                            RemoveFavoriteNewsEvent(news: widget.news),
                           );
                         } else {
                           context.read<NewsBloc>().add(
-                            AddFavoriteNewsEvent(id: widget.news.id),
+                            AddFavoriteNewsEvent(news: widget.news),
                           );
                         }
                       },

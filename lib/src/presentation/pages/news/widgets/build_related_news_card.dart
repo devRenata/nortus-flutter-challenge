@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nortus/src/domain/entities/related_news.dart';
 import 'package:nortus/src/presentation/blocs/news/news_bloc.dart';
-import 'package:nortus/src/presentation/blocs/news/news_event.dart';
 import 'package:nortus/src/presentation/blocs/news/news_state.dart';
 import 'package:nortus/src/presentation/themes/app_colors.dart';
 
@@ -27,7 +26,7 @@ class _BuildRelatedNewsCardState extends State<BuildRelatedNewsCard> {
     final size = MediaQuery.of(context).size;
     return BlocBuilder<NewsBloc, NewsState>(
       builder: (context, state) {
-        final bool isFavorite = state.favoriteNews.any((n) => n == widget.relatedNews.id);
+        final bool isFavorite = state.favoriteNews.any((n) => n.id == widget.relatedNews.id);
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,27 +65,14 @@ class _BuildRelatedNewsCardState extends State<BuildRelatedNewsCard> {
                         color: AppColors.white,
                         borderRadius: BorderRadius.circular(50),
                       ),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (isFavorite) {
-                            context.read<NewsBloc>().add(
-                              RemoveFavoriteNewsEvent(id: widget.relatedNews.id),
-                            );
-                          } else {
-                            context.read<NewsBloc>().add(
-                              AddFavoriteNewsEvent(id: widget.relatedNews.id),
-                            );
-                          }
-                        },
-                        child: Icon(
-                          isFavorite
-                              ? Icons.star_rounded
-                              : Icons.star_border_rounded,
-                          color: isFavorite
-                              ? AppColors.yellow
-                              : AppColors.textBlack,
-                          size: 28,
-                        ),
+                      child: Icon(
+                        isFavorite
+                            ? Icons.star_rounded
+                            : Icons.star_border_rounded,
+                        color: isFavorite
+                            ? AppColors.yellow
+                            : AppColors.textBlack,
+                        size: 28,
                       ),
                     ),
                   )
