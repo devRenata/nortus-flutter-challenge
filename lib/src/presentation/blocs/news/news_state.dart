@@ -1,5 +1,6 @@
 import 'package:nortus/src/domain/entities/category.dart';
 import 'package:nortus/src/domain/entities/news.dart';
+import 'package:nortus/src/domain/entities/news_details.dart';
 
 enum NewsStatus {
   initial,
@@ -12,6 +13,7 @@ enum NewsStatus {
 class NewsState {
   final NewsStatus status;
   final List<Category> categories;
+  final NewsDetails? newsDetails;
   final List<News> news;
   final String? message;
   final int page;
@@ -20,6 +22,7 @@ class NewsState {
   NewsState({
     required this.status,
     required this.categories,
+    required this.newsDetails,
     required this.news,
     required this.message,
     required this.page,
@@ -34,6 +37,7 @@ class NewsState {
       message: null,
       page: 1,
       hasReachedMax: false,
+      newsDetails: null,
     );
   }
 
@@ -43,6 +47,7 @@ class NewsState {
     List<News>? news,
     String? message,
     int? page,
+    NewsDetails? newsDetails,
     bool? hasReachedMax,
   }) {
     return NewsState(
@@ -52,6 +57,7 @@ class NewsState {
       message: message,
       page: page ?? this.page,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      newsDetails: newsDetails ?? this.newsDetails,
     );
   }
 }

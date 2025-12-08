@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nortus/src/domain/entities/news.dart';
 import 'package:nortus/src/presentation/themes/app_colors.dart';
 
@@ -25,13 +26,23 @@ class _BuildNewsCardState extends State<BuildNewsCard> {
       children: [
         Stack(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                widget.news.image.src,
-                width: double.infinity,
-                height: size.height * 0.24,
-                fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                context.pushNamed(
+                  'newsDetails',
+                  pathParameters: {
+                    'id': widget.news.id.toString(),
+                  }
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  widget.news.image.src,
+                  width: double.infinity,
+                  height: size.height * 0.24,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Positioned(
@@ -44,14 +55,21 @@ class _BuildNewsCardState extends State<BuildNewsCard> {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(50),
                 ),
-                child: Icon(
-                  isFavorite
-                      ? Icons.star_rounded
-                      : Icons.star_border_rounded,
-                  color: isFavorite
-                      ? AppColors.yellow
-                      : AppColors.textBlack,
-                  size: 28,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isFavorite = !isFavorite;
+                    });
+                  },
+                  child: Icon(
+                    isFavorite
+                        ? Icons.star_rounded
+                        : Icons.star_border_rounded,
+                    color: isFavorite
+                        ? AppColors.yellow
+                        : AppColors.textBlack,
+                    size: 28,
+                  ),
                 ),
               ),
             )
