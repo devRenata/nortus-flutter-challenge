@@ -36,7 +36,6 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
       body: BlocBuilder<NewsBloc, NewsState>(
         builder: (context, state) {
           if (state.status == NewsStatus.loading ||
-              state.status == NewsStatus.loading ||
               state.newsDetails == null) {
             return Center(
               child: CircularProgressIndicator(
@@ -269,6 +268,8 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
   }
 
   Widget _buildCategoryAndFavorite(Size size, NewsState state) {
+    final bool isFavorite = state.favoriteNews.any((n) => n == state.newsDetails!.id);
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
@@ -298,9 +299,19 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
             ),
           ),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              if (isFavorite) {
+                context.read<NewsBloc>().add(
+                  RemoveFavoriteNewsEvent(id: widget.id),
+                );
+              } else {
+                  context.read<NewsBloc>().add(
+                    AddFavoriteNewsEvent(id: widget.id),
+                  );
+              }
+            },
             child: Container(
-              padding: EdgeInsets.all(8),
+              padding: EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: AppColors.backgroundGray,
                 borderRadius: BorderRadius.circular(50),
@@ -310,7 +321,13 @@ class _NewsDetailsPageState extends State<NewsDetailsPage> {
                 ),
               ),
               child: Icon(
-                Icons.star_outline_rounded,
+                isFavorite
+                    ? Icons.star_rounded
+                    : Icons.star_outline_rounded,
+                color: isFavorite
+                    ? AppColors.yellow
+                    : AppColors.textBlack,
+                size: 28,
               ),
             ),
           ),

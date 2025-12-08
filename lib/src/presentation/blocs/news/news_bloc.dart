@@ -19,6 +19,26 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     on<LoadCategoriesEvent>(_onLoadCategories);
     on<GetNewsEvent>(_onGetNews);
     on<GetNewsDetailsEvent>(_onGetNewsDetails);
+    on<AddFavoriteNewsEvent>(_onAddFavoriteNews);
+    on<RemoveFavoriteNewsEvent>(_onRemoveFavoriteNews);
+  }
+
+  Future<void> _onRemoveFavoriteNews(
+    RemoveFavoriteNewsEvent event,
+    Emitter<NewsState> emit,
+  ) async {
+    final updatedList = state.favoriteNews.where((favId) => favId != event.id).toList();
+    emit(state.copyWith(favoriteNews: updatedList));
+  }
+
+  Future<void> _onAddFavoriteNews(
+    AddFavoriteNewsEvent event,
+    Emitter<NewsState> emit,
+  ) async {
+    if (state.favoriteNews.contains(event.id)) return;
+
+    final updatedList = List<int>.from(state.favoriteNews)..add(event.id);
+    emit(state.copyWith(favoriteNews: updatedList));
   }
 
   Future<void> _onGetNewsDetails(

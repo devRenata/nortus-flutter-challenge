@@ -14,6 +14,7 @@ class NewsState {
   final NewsStatus status;
   final List<Category> categories;
   final NewsDetails? newsDetails;
+  final List<int> favoriteNews;
   final List<News> news;
   final String? message;
   final int page;
@@ -23,6 +24,7 @@ class NewsState {
     required this.status,
     required this.categories,
     required this.newsDetails,
+    required this.favoriteNews,
     required this.news,
     required this.message,
     required this.page,
@@ -32,6 +34,7 @@ class NewsState {
   factory NewsState.initial() {
     return NewsState(
       status: NewsStatus.initial,
+      favoriteNews: [],
       categories: [],
       news: [],
       message: null,
@@ -44,6 +47,7 @@ class NewsState {
   NewsState copyWith({
     NewsStatus? status,
     List<Category>? categories,
+    List<int>? favoriteNews,
     List<News>? news,
     String? message,
     int? page,
@@ -58,6 +62,7 @@ class NewsState {
       page: page ?? this.page,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       newsDetails: newsDetails ?? this.newsDetails,
+      favoriteNews: favoriteNews ?? this.favoriteNews,
     );
   }
 }
