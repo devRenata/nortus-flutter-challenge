@@ -16,7 +16,18 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    _checkSession();
+
+    final notifier = context.read<KeepLoggedNotifier>();
+
+    if (notifier.isLogged != null) {
+      _navigate(notifier.isLogged!);
+    }
+
+    notifier.addListener(() {
+      if (notifier.isLogged != null) {
+        _navigate(notifier.isLogged!);
+      }
+    });
   }
 
   @override
@@ -38,15 +49,9 @@ class _SplashPageState extends State<SplashPage> {
     );
   }
 
-  Future<void> _checkSession() async {
-    final notifier = context.read<KeepLoggedNotifier>();
-
-    while (notifier.isLogged == null) {
-      await Future.delayed(const Duration(seconds: 3));
-    }
-
+  void _navigate(bool logged) {
     if (!mounted) return;
-    if (notifier.isLogged!) {
+    if (logged) {
       context.go(AppRoutes.news);
     } else {
       context.go(AppRoutes.login);

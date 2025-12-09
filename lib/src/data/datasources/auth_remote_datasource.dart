@@ -51,6 +51,9 @@ class AuthRemoteDatasource {
           "login": login,
           "password": password,
         },
+        options: Options(
+          responseType: ResponseType.plain,
+        ),
       );
 
       return response.statusCode == 200;

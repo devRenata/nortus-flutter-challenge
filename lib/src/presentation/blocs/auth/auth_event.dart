@@ -22,3 +22,4 @@ class CreateAccountEvent extends AuthEvent {
   });
 }
 
+class LogoutEvent extends AuthEvent {}

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:nortus/src/presentation/blocs/auth/auth_bloc.dart';
+import 'package:nortus/src/presentation/blocs/auth/auth_event.dart';
 import 'package:nortus/src/presentation/blocs/news/news_bloc.dart';
 import 'package:nortus/src/presentation/blocs/news/news_state.dart';
 import 'package:nortus/src/presentation/blocs/user/user_bloc.dart';
@@ -8,6 +11,7 @@ import 'package:nortus/src/presentation/blocs/user/user_state.dart';
 import 'package:nortus/src/presentation/pages/user/widgets/build_favorite_news_card.dart';
 import 'package:nortus/src/presentation/pages/user/widgets/build_user_action_button.dart';
 import 'package:nortus/src/presentation/pages/widgets/build_app_bar.dart';
+import 'package:nortus/src/presentation/routes/app_routes.dart';
 import 'package:nortus/src/presentation/themes/app_colors.dart';
 
 class UserPage extends StatefulWidget {
@@ -120,7 +124,8 @@ class _UserPageState extends State<UserPage> {
         SizedBox(height: 20),
         BuildUserActionButton(
           onPressed: () {
-
+            context.read<AuthBloc>().add(LogoutEvent());
+            context.go(AppRoutes.login);
           },
           color: AppColors.error,
           text: 'Sair da conta',
