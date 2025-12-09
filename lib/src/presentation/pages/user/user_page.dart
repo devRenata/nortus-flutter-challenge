@@ -115,7 +115,7 @@ class _UserPageState extends State<UserPage> {
         SizedBox(height: 20),
         BuildUserActionButton(
           onPressed: () {
-
+            context.push(AppRoutes.updateUser);
           },
           icon: Icons.settings_outlined,
           color: AppColors.textBlack,
