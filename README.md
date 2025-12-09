@@ -1,11 +1,11 @@
 # 📱 Flutter News App — Loomi Challenge
 
-## 📌 Introdução
+## Introdução
 
 Este projeto foi desenvolvido como parte do **Flutter Challenge da Loomi**, com o objetivo de demonstrar arquitetura, qualidade de código, gerenciamento de estado, integração de API e tomada de decisões sob restrições de tempo.
 O aplicativo **Nortus News** permite que os usuários se autentiquem, naveguem por um feed de notícias paginado, pesquisem localmente, visualizem detalhes, gerenciem favoritos e atualizem seus perfis.
 
-## 🏛️ Arquitetura
+## Arquitetura
 O projeto segue uma arquitetura limpa (Clean Architecture) adaptada ao contexto mobile, organizada de forma modular e baseada na separação clara de responsabilidades. O objetivo é obter um código escalável, fácil de testar, manter e evoluir.
 A arquitetura é composta por três camadas principais:
 
@@ -32,13 +32,13 @@ A camada responsável pela interface do usuário e interação:
 - Rotas
 - Temas e estilos
 
-#### 🔄 Fluxo de dados
+#### Fluxo de dados
 Com essa arquitetura o aplicativo possui o fluxo de dados seguindo a cadeia:
 
 Bloc ↔ Usecases ↔ Repositories ↔ Datasources ↔ API
 
 
-## ✔️ Fluxos implementados
+## Fluxos implementados
 #### Autenticação
 - [x] Login com validação de formulários
 - [x] Manter-se conectado via shared_preferences
@@ -61,7 +61,7 @@ Bloc ↔ Usecases ↔ Repositories ↔ Datasources ↔ API
 - [x] Indicadores de carregamento para todas as requisições
 - [x] Responsividade básica
 
-## 🖼️ Screenshots
+## Screenshots
 <p align="left">
   <img src="docs/screenshots/splesh-screen.jpg" width="24%"/>
   <img src="docs/screenshots/sign-in-screen.jpg" width="24%"/>
@@ -75,12 +75,12 @@ Bloc ↔ Usecases ↔ Repositories ↔ Datasources ↔ API
   <img src="docs/screenshots/update-user-screen.jpg" width="24%"/>
 </p>
 
-## 🚀 Pontos para melhoria futura
+## Pontos para melhoria futura
 - Adicionar cobertura de testes para Repositories, Datasources e Usecases;
 - Adicionar suporte à offline, utilizando informações em cache;
 - Otimizar carregamento de imagens;
 
-## 🧰 Tecnologias utilizadas
+## Tecnologias utilizadas
 - Dio;
 - Bloc;
 - Provider;
@@ -88,7 +88,7 @@ Bloc ↔ Usecases ↔ Repositories ↔ Datasources ↔ API
 - GetIt;
 - Shared Preferences;
 
-## 🚀 Como executar o projeto
+## Como executar o projeto
 
 1. **Clone o repositório**
 ```bash
