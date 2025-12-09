@@ -19,6 +19,7 @@ import 'package:nortus/src/domain/usecases/news/get_categories_usecase.dart';
 import 'package:nortus/src/domain/usecases/news/get_news_details_usecase.dart';
 import 'package:nortus/src/domain/usecases/news/get_news_usecase.dart';
 import 'package:nortus/src/domain/usecases/user/get_user_usecase.dart';
+import 'package:nortus/src/domain/usecases/user/update_user_usecase.dart';
 import 'package:nortus/src/presentation/blocs/auth/auth_bloc.dart';
 import 'package:nortus/src/presentation/blocs/news/news_bloc.dart';
 import 'package:nortus/src/presentation/blocs/user/user_bloc.dart';
@@ -102,6 +103,9 @@ void setupDependencies() async {
   serviceLocator.registerLazySingleton<LogoutUsecase>(
     () => LogoutUsecase(repository: serviceLocator<AuthRepository>()),
   );
+  serviceLocator.registerLazySingleton<UpdateUserUsecase>(
+    () => UpdateUserUsecase(),
+  );
 
   // Providers and Blocs
   serviceLocator.registerFactory(
@@ -128,6 +132,7 @@ void setupDependencies() async {
 
   serviceLocator.registerFactory<UserBloc>(
     () => UserBloc(
+      updateUserUsecase: serviceLocator<UpdateUserUsecase>(),
       getUserUsecase: serviceLocator<GetUserUsecase>(),
     ),
   );

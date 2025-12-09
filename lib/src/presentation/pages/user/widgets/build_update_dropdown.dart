@@ -5,13 +5,15 @@ class BuildUpdateDropdown extends StatelessWidget {
   final List<String> options;
   final String title;
   final String hintText;
-  final void Function(String)? onChanged;
+  final String value;
+  final void Function(String) onChanged;
 
   const BuildUpdateDropdown({
     required this.options,
     required this.hintText,
     required this.title,
-    this.onChanged,
+    required this.value,
+    required this.onChanged,
     super.key,
   });
 
@@ -30,6 +32,7 @@ class BuildUpdateDropdown extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         DropdownButtonFormField<String>(
+          initialValue: value,
           dropdownColor: AppColors.white,
           isExpanded: true,
           decoration: InputDecoration(
@@ -75,7 +78,7 @@ class BuildUpdateDropdown extends StatelessWidget {
             );
           }).toList(),
           onChanged: (value) {
-            if (value != null) onChanged?.call(value);
+            if (value != null) onChanged.call(value);
           },
         ),
       ],

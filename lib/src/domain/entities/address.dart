@@ -31,4 +31,26 @@ class Address {
       state: json['state'],
     );
   }
+
+  Address copyWith({
+    String? zipCode,
+    String? country,
+    String? street,
+    String? number,
+    String? complement,
+    String? neighborhood,
+    String? city,
+    String? state,
+  }) {
+    return Address(
+      zipCode: zipCode ?? this.zipCode,
+      country: country ?? this.country,
+      street: street ?? this.street,
+      number: number ?? this.number,
+      complement: complement ?? this.complement,
+      neighborhood: neighborhood ?? this.neighborhood,
+      city: city ?? this.city,
+      state: state ?? this.state,
+    );
+  }
 }

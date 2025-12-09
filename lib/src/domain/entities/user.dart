@@ -33,4 +33,24 @@ class User {
       updateAt: DateTime.parse(json['updatedAt']),
     );
   }
+
+  User copyWith({
+    String? name,
+    String? email,
+    String? language,
+    String? dateFormat,
+    String? timezone,
+    Address? address,
+  }) {
+    return User(
+      id: id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      language: language ?? this.language,
+      dateFormat: dateFormat ?? this.dateFormat,
+      timezone: timezone ?? this.timezone,
+      address: address ?? this.address,
+      updateAt: DateTime.now(),
+    );
+  }
 }

@@ -38,6 +38,7 @@ class _UserPageState extends State<UserPage> {
       appBar: BuildAppBar(),
       body: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
+
           if (state.status == UserStatus.loading ||
               state.status == UserStatus.initial) {
             return Center(
@@ -48,21 +49,26 @@ class _UserPageState extends State<UserPage> {
           }
 
           if (state.status == UserStatus.success) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: SingleChildScrollView(
-                child: Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildLogoName(),
-                      _buildUserInfo(state),
-                      _buildFavoriteNews(),
-                    ],
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildLogoName(),
+                              
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildUserInfo(state),
+                        _buildFavoriteNews(),
+                      ],
+                    ),
                   ),
-                ),
+                  
+                ],
               ),
             );
           }
@@ -189,6 +195,7 @@ class _UserPageState extends State<UserPage> {
       width: double.infinity,
       color: AppColors.backgroundGray,
       padding: EdgeInsets.symmetric(
+        horizontal: 20,
         vertical: 20,
       ),
       child: Text(

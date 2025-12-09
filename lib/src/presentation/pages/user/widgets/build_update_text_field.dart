@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nortus/src/presentation/themes/app_colors.dart';
 
 class BuildUpdateTextField extends StatelessWidget {
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final String hintText;
 
   const BuildUpdateTextField({
     super.key,
-    this.controller,
+    required this.controller,
     required this.hintText,
   });
 
